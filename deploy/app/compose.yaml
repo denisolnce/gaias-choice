@@ -121,6 +121,18 @@ services:
       WEATHER_COORDS: "37.65,-8.22"
       WEATHER_LOCATION: Sobreiro Torto
       TZ: Europe/Lisbon
+      # The feedback chip (porta-pagi feedback.go): emailed through Resend
+      # when all three are set in /opt/doco-cd/secrets.env (PASS_ENV), else
+      # written to this container's log. Empty is a valid state.
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      FEEDBACK_TO: ${FEEDBACK_TO:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+    # Feedback lands in the log until email is wired: keep the log small.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     volumes:
       # nonroot (uid 65532) must write here: a tmpfs is root-owned, hence
       # the mode. 256 MB is many hours of a visitor uploading pictures.

@@ -711,6 +711,19 @@ in `.doco-cd.yml` — nothing hand-run on the box:
   the village or the api. Dropping `die` for cause is backlog item 8 of the
   doco-cd notes, unchanged by this.
 
+### 2026-09-28 — the demo takes switches, dues, roster, orders, feedback
+
+Tags rolled: the demo to porta-pagi `7b2f94e` (the switches, a steward's
+settings page, a dues ledger and a duty roster behind switches, order runs,
+the feedback chip, contacts by letter, a bilingual pt-PT/English seed), the
+landing to `a6a3ffa`. `pagi-demo` gains three pass-through variables for the
+feedback chip — `RESEND_API_KEY`, `FEEDBACK_TO`, `EMAIL_FROM`, all `${…:-}`:
+empty until the owner puts them in `/opt/doco-cd/secrets.env`, and empty
+means feedback is written to the container's log. Hence a `json-file` log
+cap on that service (10 MB × 3): the log holds reply addresses until email
+is wired. The demo build refuses a switch flip server-side, so no visitor
+takes a room from the others for the hour.
+
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
   imperatively via `hcloud`; codify it later as `hcloud_firewall` + attachment.
