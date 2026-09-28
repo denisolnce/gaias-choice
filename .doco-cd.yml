@@ -27,7 +27,7 @@ environment:
   PAGI_DOMAIN: porta-pagi.gardenofatlantis.com
   PAGI_DEMO_DOMAIN: pp-demo.gardenofatlantis.com
   PAGI_SITE_TAG: sha-a6a3ffa8eaf96cb9e81549b2f7d86adb37c75afc
-  PAGI_DEMO_TAG: sha-7b2f94e9a093a18f9793b2fd95ebbc6202f11748
+  PAGI_DEMO_TAG: sha-ff22bdd48175b0d6498a92b6567f2fbb36d2e8fd
   CORS_ORIGINS: https://dennislapchenko.github.io
   BE_TAG: sha-f40ba2b34a9fd744399685353b43a9339abae907
 # Runtime self-healing (doco-cd watches Docker events on this stack's containers):
