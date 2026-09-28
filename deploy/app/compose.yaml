@@ -100,7 +100,7 @@ services:
   # size-capped tmpfs — the container seeds itself on an empty ground — and
   # the memory is capped. The worst a visitor can do is kill the demo, not
   # fill this box. Beside a village, which the product's docs say never to
-  # do; the owner chose it for now (porta-pagi docs/commercial.md § Decided).
+  # do; the owner chose it for now (porta-pagi-cloud docs/commercial.md § Decided).
   pagi-demo:
     image: ghcr.io/dennislapchenko/porta-pagi-demo:${PAGI_DEMO_TAG:-latest}
     restart: unless-stopped
