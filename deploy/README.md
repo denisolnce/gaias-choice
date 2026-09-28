@@ -73,7 +73,19 @@ The static site stays on GitHub Pages and never depends on this stack.
   just its feature (`app/compose.yaml` comments). The three porta-pagi
   feedback keys (`RESEND_API_KEY`, `FEEDBACK_TO`, `EMAIL_FROM`) are read by
   both the village's `potok-api` and this stack's `pagi-demo`; unset, their
-  feedback goes to the container log. **Written reproducibly, not by
+  feedback goes to the container log. **To wire them (owner's step):**
+  1. In Resend, create an API key (sending access) and verify a sending
+     domain — add the DNS records its dashboard shows.
+  2. Add to the repo-root `.env`: `RESEND_API_KEY=…`, `FEEDBACK_TO=<inbox>`,
+     `EMAIL_FROM=Porta Pagi <feedback@<verified domain>>`.
+  3. `task doco:secrets`.
+  4. **Untested:** whether a stack sees new `PASS_ENV` values before its own
+     next deploy. Check with `docker inspect mokri-potok-potok-api-1 --format
+     '{{.Config.Env}}'` (and the same for `gaias-choice-pagi-demo-1`); if the
+     keys are missing, push any change that redeploys that stack.
+  5. Send one feedback from the portal. The mail arrives, and `task vm:logs`
+     in the village repo shows no `FEEDBACK (…)` line — that line is the
+     log-only or failed path. Record the day in `infra-log.md`. **Written reproducibly, not by
   hand:** the repo-root `.env` (gitignored) is the single source of truth for
   values (same ones local dev uses); `task doco:secrets` (→
   `controller/push-secrets.sh`) streams `.env` + a derived `APPRISE_NOTIFY_URLS`
