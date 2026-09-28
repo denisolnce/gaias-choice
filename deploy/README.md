@@ -70,7 +70,10 @@ The static site stays on GitHub Pages and never depends on this stack.
   `PASS_ENV`. Holds only real secrets — the non-secret `API_DOMAIN`,
   `CORS_ORIGINS`, `BE_TAG` live in `.doco-cd.yml`. The **key list** is
   `controller/secrets.env.example`; each is optional and an unset secret 503s
-  just its feature (`app/compose.yaml` comments). **Written reproducibly, not by
+  just its feature (`app/compose.yaml` comments). The three porta-pagi
+  feedback keys (`RESEND_API_KEY`, `FEEDBACK_TO`, `EMAIL_FROM`) are read by
+  both the village's `potok-api` and this stack's `pagi-demo`; unset, their
+  feedback goes to the container log. **Written reproducibly, not by
   hand:** the repo-root `.env` (gitignored) is the single source of truth for
   values (same ones local dev uses); `task doco:secrets` (→
   `controller/push-secrets.sh`) streams `.env` + a derived `APPRISE_NOTIFY_URLS`
