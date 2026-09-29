@@ -26,7 +26,7 @@ environment:
   # reconcile stops — flip them before the first push that names them.
   PAGI_DOMAIN: porta-pagi.gardenofatlantis.com
   PAGI_DEMO_DOMAIN: pp-demo.gardenofatlantis.com
-  PAGI_SITE_TAG: sha-da0ad78d48507c99920645f29edbbf908a45c61a
+  PAGI_SITE_TAG: sha-78989385b22ec853ff331a4192b7f50e6b3cf425
   PAGI_DEMO_TAG: sha-607078047971898ce206b45f3d74b4fc468133ce
   CORS_ORIGINS: https://denisolnce.github.io
   BE_TAG: sha-78d2e6c3fea27128553a27dd6e57dd1ddbcbf9a9
