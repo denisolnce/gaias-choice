@@ -57,7 +57,7 @@ func testEnv(t *testing.T, cs content.Store) (*gin.Engine, string) {
 }
 
 func githubSeam(upstream string) content.Store {
-	return content.NewGitHubStore("test-pat", "dennislapchenko/gaias-choice", "main", upstream)
+	return content.NewGitHubStore("test-pat", "denisolnce/gaias-choice", "main", upstream)
 }
 
 func do(r *gin.Engine, method, target, bearer, body string) *httptest.ResponseRecorder {
@@ -473,7 +473,7 @@ func TestReadFile(t *testing.T) {
 	if resp.Sha != "abc123" {
 		t.Errorf("sha: got %q", resp.Sha)
 	}
-	if sawPath != "/repos/dennislapchenko/gaias-choice/contents/content/locales/en/site.yaml" {
+	if sawPath != "/repos/denisolnce/gaias-choice/contents/content/locales/en/site.yaml" {
 		t.Errorf("upstream path: %q", sawPath)
 	}
 	if sawRef != "main" {
