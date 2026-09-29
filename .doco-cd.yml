@@ -29,7 +29,7 @@ environment:
   PAGI_SITE_TAG: sha-78989385b22ec853ff331a4192b7f50e6b3cf425
   PAGI_DEMO_TAG: sha-607078047971898ce206b45f3d74b4fc468133ce
   CORS_ORIGINS: https://denisolnce.github.io
-  BE_TAG: sha-78d2e6c3fea27128553a27dd6e57dd1ddbcbf9a9
+  BE_TAG: sha-70b89b9d5977d42e4e857ba1f1e00cbafa8a09a8
 # Runtime self-healing (doco-cd watches Docker events on this stack's containers):
 #   unhealthy → in-place container restart (api's /api/healthz DB probe drives it)
 #   die       → full `compose up` reconcile + a [R] Telegram alert on any
