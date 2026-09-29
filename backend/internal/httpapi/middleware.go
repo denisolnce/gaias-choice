@@ -8,8 +8,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/auth"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/auth"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
 )
 
 // userKey is where the session middleware parks the authenticated user on

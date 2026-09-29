@@ -16,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
 )
 
 const sessionTTL = 30 * 24 * time.Hour

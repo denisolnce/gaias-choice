@@ -17,12 +17,12 @@ import (
 	"github.com/gin-gonic/gin"
 	openapi_types "github.com/oapi-codegen/runtime/types"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/auth"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/content"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/enrich"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/mail"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/telegram"
+	"github.com/denisolnce/gaias-choice/backend/internal/auth"
+	"github.com/denisolnce/gaias-choice/backend/internal/content"
+	"github.com/denisolnce/gaias-choice/backend/internal/enrich"
+	"github.com/denisolnce/gaias-choice/backend/internal/mail"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/telegram"
 )
 
 // Deps is everything the HTTP layer needs, wired explicitly by main.go.

@@ -14,14 +14,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/auth"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/config"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/content"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/enrich"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/httpapi"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/mail"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/telegram"
+	"github.com/denisolnce/gaias-choice/backend/internal/auth"
+	"github.com/denisolnce/gaias-choice/backend/internal/config"
+	"github.com/denisolnce/gaias-choice/backend/internal/content"
+	"github.com/denisolnce/gaias-choice/backend/internal/enrich"
+	"github.com/denisolnce/gaias-choice/backend/internal/httpapi"
+	"github.com/denisolnce/gaias-choice/backend/internal/mail"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/telegram"
 )
 
 func main() {

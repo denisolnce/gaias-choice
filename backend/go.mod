@@ -1,4 +1,4 @@
-module github.com/dennislapchenko/gaias-choice/backend
+module github.com/denisolnce/gaias-choice/backend
 
 go 1.24.0
 

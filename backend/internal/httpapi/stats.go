@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
 )
 
 // pageRoutes mirrors the SPA route roots in frontend/src/App.tsx — the only

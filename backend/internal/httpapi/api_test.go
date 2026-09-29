@@ -18,9 +18,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/auth"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/content"
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/auth"
+	"github.com/denisolnce/gaias-choice/backend/internal/content"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
 )
 
 const (

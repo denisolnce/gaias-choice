@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/dennislapchenko/gaias-choice/backend/internal/store"
+	"github.com/denisolnce/gaias-choice/backend/internal/store"
 )
 
 func testService(t *testing.T) (*Service, *store.Store) {
