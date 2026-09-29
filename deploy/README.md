@@ -109,7 +109,7 @@ or wire it as OpenTofu userdata):
 1. **DNS** — A/AAAA record for `{$API_DOMAIN}` → VM IP (Caddy's automatic TLS
    depends on this; independent of the site's future custom domain).
 2. **Image delivery** — `.github/workflows/build-backend.yml` pushes
-   `ghcr.io/dennislapchenko/gaias-choice-be` (public package ⇒ VM pulls
+   `ghcr.io/denisolnce/gaias-choice-be` (public package ⇒ VM pulls
    unauthenticated). Pin the sha in `BE_TAG`.
 3. **Run `bootstrap-vm.sh`** — installs Docker, creates `/srv/gaias-choice/…`,
    fetches `controller/{compose,poll}.yaml` into `/opt/doco-cd/`, seeds
@@ -127,7 +127,7 @@ or wire it as OpenTofu userdata):
 ```sh
 # app compose renders with dummy env
 API_DOMAIN=api.example.com POTOK_DOMAIN=portal.example.com \
-  CORS_ORIGINS=https://dennislapchenko.github.io BE_TAG=latest \
+  CORS_ORIGINS=https://denisolnce.github.io BE_TAG=latest \
   docker compose -f deploy/app/compose.yaml config
 
 # Caddyfile parses. Both domain vars are required — an empty one leaves an

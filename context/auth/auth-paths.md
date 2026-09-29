@@ -22,7 +22,7 @@ one, "touch the fingerprint reader". No passwords for regular users.
 - FE: `src/lib/session.tsx` owns token + login/register/signOut and renders
   `components/LoginDialog.tsx` (email+password form today). `#edit` hash
   precedent exists for URL-triggered flows (`editMode.tsx`).
-- **Domains:** site = `dennislapchenko.github.io/gaias-choice` (Pages, no
+- **Domains:** site = `denisolnce.github.io/gaias-choice` (Pages, no
   custom domain). API = `gaias-choice.gardenofatlantis.com` (Hetzner VM,
   Caddy). The owner controls `gardenofatlantis.com` DNS.
 - Go deps: 4 direct, adding one is an owner decision. No mail or WebAuthn
@@ -40,7 +40,7 @@ verification — not hand-rollable; needs `github.com/go-webauthn/webauthn`
 (the standard Go library, ~4 transitive deps).
 
 **The passkey trap: RP ID is forever.** A passkey binds to the domain it was
-created on. Today that would be `dennislapchenko.github.io` (valid RP ID —
+created on. Today that would be `denisolnce.github.io` (valid RP ID —
 github.io is on the Public Suffix List), and **every passkey dies the day the
 site moves to its real domain**. Magic link has no such binding.
 

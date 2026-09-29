@@ -32,7 +32,7 @@ services:
       # text/template, validated at startup; the title stays daemon-native
       # ("✅ Deployment completed"), not templatable.
       # Repo prefix is the literal short name (this daemon polls only
-      # dennislapchenko/gaias-choice) — doco-cd registers no template funcs, so
+      # denisolnce/gaias-choice) — doco-cd registers no template funcs, so
       # splitting .Repository on "/" in-template isn't possible.
       # Full write-up: the doco-cd skill "Notifications (Apprise)".
       APPRISE_API_URL: http://apprise:8000/notify
