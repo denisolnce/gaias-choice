@@ -3,7 +3,7 @@
 # stays internal to the compose network. See deploy/README.md for activation.
 services:
   api:
-    image: ghcr.io/dennislapchenko/gaias-choice-be:${BE_TAG:-latest}
+    image: ghcr.io/denisolnce/gaias-choice-be:${BE_TAG:-latest}
     restart: unless-stopped
     environment:
       DATA_DIR: /data
@@ -89,7 +89,7 @@ services:
   # porta-pagi-cloud's CI. Caddy proxies PAGI_DOMAIN to it. Nothing to
   # persist; a roll is a PAGI_SITE_TAG bump in .doco-cd.yml.
   pagi-site:
-    image: ghcr.io/dennislapchenko/porta-pagi-site:${PAGI_SITE_TAG:-latest}
+    image: ghcr.io/denisolnce/porta-pagi-site:${PAGI_SITE_TAG:-latest}
     restart: unless-stopped
     networks:
       - pagi
@@ -102,7 +102,7 @@ services:
   # fill this box. Beside a village, which the product's docs say never to
   # do; the owner chose it for now (porta-pagi-cloud docs/commercial.md § Decided).
   pagi-demo:
-    image: ghcr.io/dennislapchenko/porta-pagi-demo:${PAGI_DEMO_TAG:-latest}
+    image: ghcr.io/denisolnce/porta-pagi-demo:${PAGI_DEMO_TAG:-latest}
     restart: unless-stopped
     # Caps, because it shares this box with a village: memory, half a core,
     # and a process count a fork loop cannot pass.

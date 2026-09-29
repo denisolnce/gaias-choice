@@ -13,7 +13,7 @@
 #   Override:         REF=<branch> REPO_RAW=<host> bash bootstrap-vm.sh
 set -euo pipefail
 
-REPO_RAW="${REPO_RAW:-https://raw.githubusercontent.com/dennislapchenko/gaias-choice}"
+REPO_RAW="${REPO_RAW:-https://raw.githubusercontent.com/denisolnce/gaias-choice}"
 REF="${REF:-main}"
 CTRL_DIR=/opt/doco-cd
 CTRL_URL="$REPO_RAW/$REF/deploy/controller"

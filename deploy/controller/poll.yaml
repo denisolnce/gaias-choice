@@ -1,12 +1,12 @@
 # doco-cd poll config. Reconciles the live gaias-choice stack (.doco-cd.yml) —
 # no `target:`, so the default deploy config is used. Push to main → within one
 # interval the VM runs `docker compose up` for deploy/app/.
-- url: https://github.com/dennislapchenko/gaias-choice.git
+- url: https://github.com/denisolnce/gaias-choice.git
   reference: refs/heads/main
   interval: 30s
 # Second stack on the same VM: the mokri-potok village portal backend. Public
 # repo, no token. Its .doco-cd.yml deploys one service (potok-api) that joins
 # the gaias-choice network; app/Caddyfile proxies the whole POTOK_DOMAIN host to it.
-- url: https://github.com/dennislapchenko/mokri-potok-portal.git
+- url: https://github.com/denisolnce/mokri-potok-portal.git
   reference: refs/heads/main
   interval: 60s

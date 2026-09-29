@@ -77,7 +77,7 @@ func Load() Config {
 		DataDir: envOr("DATA_DIR", "./data"),
 		CORSOrigins: splitCSV(envOr(
 			"CORS_ORIGINS",
-			"http://localhost:5173,https://dennislapchenko.github.io",
+			"http://localhost:5173,https://denisolnce.github.io",
 		)),
 		Debug:            envBool("DEBUG"),
 		ResponseLogLines: envInt("RESPONSE_LOG_LINES", 3),
@@ -86,7 +86,7 @@ func Load() Config {
 			"/api/healthz,/api/auth/me,/api/auth/telegram/poll",
 		)),
 		GitHubToken:            os.Getenv("GITHUB_TOKEN"),
-		GitHubRepo:             envOr("GITHUB_REPO", "dennislapchenko/gaias-choice"),
+		GitHubRepo:             envOr("GITHUB_REPO", "denisolnce/gaias-choice"),
 		GitHubBranch:           envOr("GITHUB_BRANCH", "main"),
 		GitHubAPI:              envOr("GITHUB_API", "https://api.github.com"),
 		LocalContentDir:        os.Getenv("LOCAL_CONTENT_DIR"),
@@ -100,7 +100,7 @@ func Load() Config {
 		SMTPPass:               os.Getenv("SMTP_PASS"),
 		MailFrom:               envOr("MAIL_FROM", "Gaia's Choice <login@gardenofatlantis.com>"),
 		PublicSiteURL: strings.TrimRight(
-			envOr("PUBLIC_SITE_URL", "https://dennislapchenko.github.io/gaias-choice"), "/"),
+			envOr("PUBLIC_SITE_URL", "https://denisolnce.github.io/gaias-choice"), "/"),
 		TelegramBotToken: os.Getenv("TELEGRAM_BOT_TOKEN"),
 		AnthropicKey:     os.Getenv("ANTHROPIC_API_KEY"),
 		AnthropicModel:   os.Getenv("ANTHROPIC_MODEL"),

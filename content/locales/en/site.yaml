@@ -21,7 +21,7 @@ mission: >-
 # Current production URL. This is a GitHub Pages project-page subpath for
 # now; it'll move to the root of a custom domain later, at which point this
 # should be updated (and BASE_PATH in the deploy workflow can drop to '/').
-url: https://dennislapchenko.github.io/gaias-choice
+url: https://denisolnce.github.io/gaias-choice
 
 heroImage: /images/hero.webp
 
