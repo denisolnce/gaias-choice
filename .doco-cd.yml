@@ -28,7 +28,7 @@ environment:
   # names before it are redirects in the Caddyfile.
   PAGI_DOMAIN: portapagi.com
   PAGI_DEMO_DOMAIN: demo.portapagi.com
-  PAGI_SITE_TAG: sha-e655c70fa8c4f69a0bc537ca525d1437e0e0df29
+  PAGI_SITE_TAG: sha-8bed6550a2ffc4e22f184826b4f167cb93ded84e
   PAGI_DEMO_TAG: sha-f4b564d9d0e59d7f6aa878cd1a5cc02dda2af520
   CORS_ORIGINS: https://denisolnce.github.io
   BE_TAG: sha-6de482c61328bfa0a8d80e8161518b853f0e103f
