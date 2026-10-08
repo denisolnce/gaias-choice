@@ -38,3 +38,15 @@ environment:
 # Both send a [R] notification. Exit code isn't in the payload — check `task be:logs`.
 reconciliation:
   events: [unhealthy, die]
+---
+# The controller itself (Layer 0 in git, since 2026-10-08). `name` MUST stay doco-cd:
+# the daemon recognises its own container by compose project + service labels, and
+# another name starts a SECOND daemon. A bump of deploy/controller/compose.yaml on
+# main recreates the controller through the self-update handover (scale_out: the
+# successor starts, gets healthy, takes over, removes the old one; ~60 s, no poll
+# missed). Before merging such a bump: diff go.mod for compose-go and look at
+# internal/source for a layout change — the health gate does not do that.
+name: doco-cd
+working_dir: deploy/controller
+timeout: 120
+reconciliation: false
