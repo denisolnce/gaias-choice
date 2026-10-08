@@ -740,6 +740,18 @@ the address masked. The first lines are the verification's own: one
 request with a `chatgpt.com` referrer at 10:49 UTC is the test, not a
 visitor.
 
+Same day, on review: the page said "kept 90 days" and the log did not keep
+that — `roll_keep_for` ages only rolled files, and a quiet live file rolls
+at 10 MiB, a year away. Now each file also rolls daily (`roll_interval
+24h`, `roll_keep 100`, `roll_keep_for 90d`). And a line held every request
+header but four, TLS details and the response headers, more than the
+page's four things: now `request>headers`, `request>tls`, `resp_headers`
+and `request>remote_port` are deleted, and `User-Agent` and `Referer` come
+back as top-level `ua` and `referer` by `log_append`. The demo's `/api/*`
+is skipped except `POST /api/demo/enter`: which rooms a visitor opens is
+not what the page says the log is for. The lines before this change keep
+the old shape until they age out; `task lens` reads both.
+
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
   imperatively via `hcloud`; codify it later as `hcloud_firewall` + attachment.
