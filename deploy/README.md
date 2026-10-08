@@ -32,13 +32,15 @@ The static site stays on GitHub Pages and never depends on this stack.
 - `app/compose.yaml` — the `api` service (backend image, host bind mount for
   SQLite per D9) behind a `caddy` service that terminates TLS. Only Caddy
   publishes ports (80/443); `api` stays internal to the compose network.
-- `app/Caddyfile` — four sites, all with automatic Let's Encrypt TLS, bot-scan
+- `app/Caddyfile` — four sites (plus redirect-only names), all with automatic Let's Encrypt TLS, bot-scan
   paths edge-dropped and the same transport hardening (HSTS, body cap):
   `{$API_DOMAIN}` → `api:8787`, `{$POTOK_DOMAIN}` → `potok-api:8788` (the
   village portal, whole host — that container serves its own frontend),
   `{$PAGI_DOMAIN}` → `pagi-site:8080` (the Porta Pagi landing page) and
   `{$PAGI_DEMO_DOMAIN}` → `pagi-demo:8788` (its demo village, the product's
   demo image on a tmpfs). See its comments, and `infra-log.md` for the wiring.
+  Those two are `portapagi.com` and `demo.portapagi.com`; `www.portapagi.com`
+  and their old test names under `gardenofatlantis.com` are 301s to them.
   The two Porta Pagi sites alone keep an access log in
   `/srv/gaias-choice/caddy-logs` on the VM: path, User-Agent, Referer, the
   address cut to /24 or /48, rolled daily, 90 days. porta-pagi-cloud's

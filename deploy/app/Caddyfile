@@ -178,3 +178,16 @@
 	log_skip @quiet
 	reverse_proxy pagi-demo:8788
 }
+
+# Names that only redirect (2026-10-08): `www.` of the landing, and the two
+# test addresses the landing and the demo had before portapagi.com — links
+# to them were already sent, so they answer a 301 to the same path on the
+# real name, not a dead host. Literal names on purpose: they are retired,
+# not configuration. Each keeps its own Let's Encrypt cert, renewed while
+# its A record points here.
+www.{$PAGI_DOMAIN}, porta-pagi.gardenofatlantis.com {
+	redir https://{$PAGI_DOMAIN}{uri} permanent
+}
+pp-demo.gardenofatlantis.com {
+	redir https://{$PAGI_DEMO_DOMAIN}{uri} permanent
+}
