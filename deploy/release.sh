@@ -36,4 +36,4 @@ grep -q "^  BE_TAG: ${tag}\$" "$DOCO_CFG" || { echo "failed to set BE_TAG in $DO
 git add "$DOCO_CFG"
 git commit -q -m "chore(deploy): roll VM backend image to ${tag}"
 git push -q origin main
-echo "✓ pushed ${tag} — doco-cd reconciles the VM within ~30s (docker logs doco-cd-doco-cd-1)"
+echo "✓ pushed ${tag} — doco-cd reconciles the VM within ~30s (task doco:logs, or on the VM: docker logs \$(docker ps -q --filter label=com.docker.compose.service=doco-cd))"

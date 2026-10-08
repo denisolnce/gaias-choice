@@ -1,22 +1,36 @@
-# doco-cd daemon — the GitOps controller for this VM. Server bootstrap, lives on
-# the VM (not the repo). Polls this repo and runs `docker compose up` on change.
+# doco-cd daemon — the GitOps controller for this VM, and since 2026-10-08 a stack
+# it deploys ITSELF from git (SELF_UPDATE_ENABLED, doco-cd >= 0.122; the `doco-cd`
+# document in .doco-cd.yml). A bump of the image pin here on main IS the upgrade:
+# the daemon starts a successor, waits for it to be healthy, hands over, and the
+# successor removes it (~60 s, no poll missed; the container name grows per
+# handover — address it by label, never by name). `task doco:sync` is
+# bootstrap/repair only now (sync.sh refuses while the git-managed daemon runs).
+# Polls this repo (+ mokri-potok-portal) and runs `docker compose up` on change.
 # No published ports: polling doesn't need inbound reachability, so the edge
 # firewall stays 22/80/443 only. Public repo → no GIT_ACCESS_TOKEN. Images pinned
 # to digests (immutable); bump tag+digest together to upgrade.
+# Every path below is ABSOLUTE on purpose: this file is loaded by the daemon out of
+# its per-revision artifact, where ./secrets.env and ./poll.yaml do not exist.
 services:
   doco-cd:
-    image: ghcr.io/kimdre/doco-cd:0.119.0@sha256:c0eedd8e81bc7d8dc83753cf0b1c7bdedf588400d826154ccb641b25f12c7770
+    image: ghcr.io/kimdre/doco-cd:0.124.0@sha256:31d3755a206ba5c7bc2d12752a9170edf327b2f36f815a8bc992753434f04676
     restart: unless-stopped
     # secrets.env holds the live stack's env (the former deploy.env). PASS_ENV
     # forwards these into every deployment's compose interpolation, so
     # ${API_DOMAIN}, ${BE_TAG}, ${GITHUB_TOKEN}, … in deploy/compose.yaml resolve
     # here — secrets stay on the VM, never in the repo. chmod 600, uncommitted.
     env_file:
-      - secrets.env
+      - /opt/doco-cd/secrets.env
     environment:
-      LOG_LEVEL: warn
+      # info, not warn: `deploying stack`, the handover lines and the first-poll
+      # migration are all info-level, and they are the proof an upgrade went as
+      # predicted. Drop back to warn when a quiet log is worth more than that.
+      LOG_LEVEL: info
       TZ: Europe/Helsinki
       POLL_CONFIG_FILE: /etc/doco-cd/poll.yaml
+      # The daemon may deploy the stack that contains itself (scale_out). Without it
+      # a `doco-cd` document in the deploy config fails every poll.
+      SELF_UPDATE_ENABLED: "true"
       PASS_ENV: "true"
       # Deploy notifications → Telegram via the Apprise sidecar below. `success`
       # is a MINIMUM level, and a no-op poll isn't a deployment — so this fires on
@@ -75,10 +89,16 @@ services:
       - apprise
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./poll.yaml:/etc/doco-cd/poll.yaml:ro
+      - /opt/doco-cd/poll.yaml:/etc/doco-cd/poll.yaml:ro
+      # the DIRECTORY, so the git-loaded compose above can read its env_file inside
+      # this container (compose runs in here), and so an edit that replaces
+      # secrets.env is re-resolved instead of pinning the old inode
+      - /opt/doco-cd:/opt/doco-cd:ro
       - data:/data
+    # The health gate a successor must pass. /healthcheck is the dedicated binary
+    # 0.124 ships (`/doco-cd healthcheck` still works there, deprecated, WARNs per probe).
     healthcheck:
-      test: ["CMD", "/doco-cd", "healthcheck"]
+      test: ["CMD", "/healthcheck"]
       start_period: 15s
       interval: 30s
       timeout: 5s

@@ -131,10 +131,11 @@ tasks:
 
   doco:sync:
     desc: >-
-      Push the doco-cd CONTROLLER config (deploy/controller/{compose,poll}.yaml)
-      to the VM and reload the daemon. Secrets (secrets.env) stay VM-only — use
-      doco:secrets for those. The app stack (deploy/app/) needs no sync — doco-cd
-      pulls it from git on push. Override VM_HOST/VM_PORT/VM_KEY via env.
+      BOOTSTRAP/REPAIR only since 2026-10-08: push deploy/controller/{compose,poll}.yaml
+      to a VM with no (working) controller and start it. The running daemon
+      manages its own stack from git now — a controller change is a commit on
+      main; this REFUSES while the git-managed daemon runs (FORCE=1 overrides).
+      Secrets (secrets.env) stay VM-only — use doco:secrets for those.
     cmds:
       - VM_HOST={{.VM_HOST}} VM_PORT={{.VM_PORT}} VM_KEY={{.VM_KEY}} bash deploy/controller/sync.sh
 
@@ -155,7 +156,8 @@ tasks:
       gaias-choice (there's no compose file on the host — it clones internally),
       so we read the container directly. SVC=caddy for the edge (default api).
       For the deploy daemon: task be:logs doesn't fit — that's
-      `{{.VM_SSH}} docker logs -f doco-cd-doco-cd-1`. Ctrl-C to stop.
+      `{{.VM_SSH}} 'docker logs -f $(docker ps -q --filter label=com.docker.compose.project=doco-cd --filter label=com.docker.compose.service=doco-cd)'`
+      (by label — the name grows per self-update handover). Ctrl-C to stop.
     vars:
       SVC: '{{.SVC | default "api"}}'
     cmds:

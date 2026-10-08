@@ -402,8 +402,9 @@ Then, in either case:
      its final step bumps `BE_TAG` in `.doco-cd.yml` (a `[skip ci]` commit) and
      pushes, so doco-cd on the VM reconciles within ~30s. You don't run
      `task be:deploy` for a normal ship; just watch the CI run go **green** and
-     confirm the reconcile landed (live `/api/healthz`, or `docker logs
-     doco-cd-doco-cd-1` on the VM). `task be:deploy` is now **manual
+     confirm the reconcile landed (live `/api/healthz`, or on the VM `docker logs
+     $(docker ps -q --filter label=com.docker.compose.service=doco-cd)` — by
+     label, the name grows per self-update handover). `task be:deploy` is now **manual
      rollback/pin only** (`BE_TAG=sha-…`) — see `references/backend.md`.
 
    Either way: GitHub Pages fails transiently on its own side ("Deployment

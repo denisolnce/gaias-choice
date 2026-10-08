@@ -13,10 +13,11 @@ have different lifecycles:
   GHCR, then bumps `BE_TAG` in `.doco-cd.yml` and pushes, so doco-cd ships the
   new image within ~30s. `task be:deploy BE_TAG=sha-…` is the manual
   rollback/pin.
-- **`controller/` — Layer 0 (the daemon itself).** doco-cd can't GitOps its own
-  definition, so the daemon config is **hand-synced**: edit here, run
-  `task doco:sync` (scp the non-secret files to `/opt/doco-cd/` + reload). The
-  repo is the source of truth; the VM is synced from it.
+- **`controller/` — Layer 0 (the daemon itself), managed from git since
+  2026-10-08.** doco-cd deploys the stack that contains itself (`SELF_UPDATE_ENABLED`
+  + the `doco-cd` document in `.doco-cd.yml`): edit `controller/compose.yaml`,
+  push main, the daemon hands over to a successor within a poll. `task doco:sync`
+  is bootstrap/repair only (it refuses while the git-managed daemon runs).
 
 The static site stays on GitHub Pages and never depends on this stack.
 
@@ -46,7 +47,7 @@ The static site stays on GitHub Pages and never depends on this stack.
   **non-secret** `environment:` (`API_DOMAIN`, `POTOK_DOMAIN`, `PAGI_DOMAIN`, `PAGI_DEMO_DOMAIN`, `PAGI_SITE_TAG`, `PAGI_DEMO_TAG`, `CORS_ORIGINS`,
   `BE_TAG`).
 
-**`controller/` (Layer 0 — the doco-cd daemon, synced with `task doco:sync`):**
+**`controller/` (Layer 0 — the doco-cd daemon; self-deployed from git, `task doco:sync` = bootstrap/repair):**
 
 - `controller/compose.yaml` — the daemon + the Apprise notification sidecar
   (docker socket, polling, `PASS_ENV`, deploy→Telegram notifications). Mirror of
