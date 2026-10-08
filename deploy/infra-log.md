@@ -14,9 +14,10 @@
 
 - **VM:** Hetzner Cloud, Helsinki (hel1), AlmaLinux 10.1 (Heliotrope Lion),
   x86_64. Public IP in `.env` as `SERVER_IP` (kept out of the public repo).
-  2 vCPU (Xeon Skylake), 3.5 GB RAM, no swap (under memory pressure the
-  kernel kills a container rather than slowing the box), 38 GB disk (17 %
-  used on 2026-10-08).
+  2 vCPU (Xeon Skylake), 3.5 GB RAM, 38 GB disk (17 % used on 2026-10-08).
+  A 2 GB `/swapfile` (in `/etc/fstab`), `vm.swappiness=10` in
+  `/etc/sysctl.d/90-swappiness.conf`: used only under memory pressure, so
+  the kernel slows the box before it kills a container. Added 2026-10-08.
 - **Domain:** `gaias-choice.gardenofatlantis.com` → A record → the VM IP (`SERVER_IP`)
   (registrar: Namecheap). This is the API host Caddy terminates TLS for
   (`API_DOMAIN`). The static site stays on GitHub Pages
@@ -605,6 +606,16 @@ lockout): add edge rule 13337 → drop-in `Port 22` + `Port 13337` → verify a
 fresh 13337 login → drop-in `Port 13337` only → remove edge rule 22. The
 deploy tooling was updated to use it: `deploy/release.sh` + `task be:deploy`
 take **`VM_PORT` (default 13337)**, wiring `ssh -p` / `scp -P`.
+
+**Patching.** `dnf-automatic.timer` applies security updates daily
+(`/etc/dnf/automatic.conf`: `upgrade_type = security`, `apply_updates =
+yes`, `reboot = never`, `emit_via = stdio`, so the journal is the only
+record and nothing pings). A kernel update waits for a reboot by hand:
+`dnf needs-restarting -r` says when one is due. A reboot takes every site
+on the box down for about a minute, the village too — after the village's
+03:00 UTC backup and before its quiet hours end at 05:00 UTC is the gentle
+window, and the downtime goes into the village's own infra-log. Security
+updates applied by hand 2026-10-08, when the timer was set up.
 
 **Still deferred (defense in depth):** in `sshd_config` set
 `PermitRootLogin prohibit-password` + `PasswordAuthentication no` (key auth is
