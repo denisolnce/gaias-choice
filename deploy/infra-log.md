@@ -14,6 +14,8 @@
 
 - **VM:** Hetzner Cloud, Helsinki (hel1), AlmaLinux 10.1 (Heliotrope Lion),
   x86_64. Public IP in `.env` as `SERVER_IP` (kept out of the public repo).
+  2 vCPU (Xeon Skylake), 3.5 GB RAM, **no swap**, 38 GB disk (17 % used on
+  2026-10-08).
 - **Domain:** `gaias-choice.gardenofatlantis.com` → A record → the VM IP (`SERVER_IP`)
   (registrar: Namecheap). This is the API host Caddy terminates TLS for
   (`API_DOMAIN`). The static site stays on GitHub Pages
@@ -603,6 +605,16 @@ fresh 13337 login → drop-in `Port 13337` only → remove edge rule 22. The
 deploy tooling was updated to use it: `deploy/release.sh` + `task be:deploy`
 take **`VM_PORT` (default 13337)**, wiring `ssh -p` / `scp -P`.
 
+**Patching: none since boot.** On 2026-10-08, up 93 days, `dnf updateinfo
+list --security` showed 8 Critical, 305 Important and 101 Moderate
+advisories across ~100 packages — `openssh-server`, `openssl`, `glibc`,
+`sudo`, `systemd` and the kernel among them — and `dnf-automatic.timer` is
+inactive. Applying them is the owner's call, because the kernel needs a
+reboot and every site on the box, the village included, is down for that
+minute: `dnf upgrade --security -y`, reboot, check every container came
+back (all are `restart: unless-stopped`), then `dnf-automatic` set to
+security updates so they do not pile up again.
+
 **Still deferred (defense in depth):** in `sshd_config` set
 `PermitRootLogin prohibit-password` + `PasswordAuthentication no` (key auth is
 already the only working path; makes it explicit). Not done — touches live
@@ -754,6 +766,29 @@ the old shape until they age out; `task lens` reads both. Verified after the rol
 the new line holds no header but `ua` and `referer`, a demo `/api/away`
 writes nothing, `potok-api` untouched. One more test request, User-Agent
 `lens-check-2`, at 10:58 UTC, counts as a direct visitor in the lens.
+
+### 2026-10-08 — capacity, before the landing's real domain
+
+A bounded load test from the owner's machine over the internet, User-Agent
+`capacity-test-bot` (the lens files those lines under other bots), while
+`vmstat` sampled the VM. No request failed:
+
+- landing `GET /`, 4,000 at 40 concurrent: 96 req/s, median 405 ms. ApacheBench
+  speaks HTTP/1.0 and got no keep-alive, so each request was a fresh TLS
+  handshake — the worst case, a new visitor every request. A browser on
+  HTTP/2 gets the page in ~80 ms per request on a warm connection, which is
+  the round trip.
+- demo `GET /` and `GET /api/demo/houses`, 2,000 each at 20 concurrent: 185
+  and 192 req/s, median ~100 ms, inside its 0.5-CPU cap.
+- `img/map.png` (421 KB): 16 MB/s to that one client.
+- The VM never went below 56 % idle; memory unmoved (every container under
+  130 MB, 2.5 GB available). The demo's tmpfs held 1.1 MB of its 256 MB.
+
+A front-page day on a news site is a few new visitors a second at peak, so
+the CPU and memory have one to two orders of magnitude to spare. What the
+box lacks is patching (§ Security posture) and a second machine: the demo
+and the landing share it with the village, as the Decided block in
+porta-pagi-cloud's plan says, until a paying village.
 
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
