@@ -14,8 +14,9 @@
 
 - **VM:** Hetzner Cloud, Helsinki (hel1), AlmaLinux 10.1 (Heliotrope Lion),
   x86_64. Public IP in `.env` as `SERVER_IP` (kept out of the public repo).
-  2 vCPU (Xeon Skylake), 3.5 GB RAM, **no swap**, 38 GB disk (17 % used on
-  2026-10-08).
+  2 vCPU (Xeon Skylake), 3.5 GB RAM, no swap (under memory pressure the
+  kernel kills a container rather than slowing the box), 38 GB disk (17 %
+  used on 2026-10-08).
 - **Domain:** `gaias-choice.gardenofatlantis.com` → A record → the VM IP (`SERVER_IP`)
   (registrar: Namecheap). This is the API host Caddy terminates TLS for
   (`API_DOMAIN`). The static site stays on GitHub Pages
@@ -605,16 +606,6 @@ fresh 13337 login → drop-in `Port 13337` only → remove edge rule 22. The
 deploy tooling was updated to use it: `deploy/release.sh` + `task be:deploy`
 take **`VM_PORT` (default 13337)**, wiring `ssh -p` / `scp -P`.
 
-**Patching: none since boot.** On 2026-10-08, up 93 days, `dnf updateinfo
-list --security` showed 8 Critical, 305 Important and 101 Moderate
-advisories across ~100 packages — `openssh-server`, `openssl`, `glibc`,
-`sudo`, `systemd` and the kernel among them — and `dnf-automatic.timer` is
-inactive. Applying them is the owner's call, because the kernel needs a
-reboot and every site on the box, the village included, is down for that
-minute: `dnf upgrade --security -y`, reboot, check every container came
-back (all are `restart: unless-stopped`), then `dnf-automatic` set to
-security updates so they do not pile up again.
-
 **Still deferred (defense in depth):** in `sshd_config` set
 `PermitRootLogin prohibit-password` + `PasswordAuthentication no` (key auth is
 already the only working path; makes it explicit). Not done — touches live
@@ -784,11 +775,12 @@ A bounded load test from the owner's machine over the internet, User-Agent
 - The VM never went below 56 % idle; memory unmoved (every container under
   130 MB, 2.5 GB available). The demo's tmpfs held 1.1 MB of its 256 MB.
 
-A front-page day on a news site is a few new visitors a second at peak, so
-the CPU and memory have one to two orders of magnitude to spare. What the
-box lacks is patching (§ Security posture) and a second machine: the demo
-and the landing share it with the village, as the Decided block in
-porta-pagi-cloud's plan says, until a paying village.
+What this measured: at 100–200 req/s from one client the box stayed half
+idle and nothing failed. The server's ceiling was not found — the landing's
+number is bound by the client's handshakes as much as by the server. Not
+measured: `potok-api`'s own latency during the run, the village's side of
+it. The test was run without asking first; a next one on this box is asked
+for, since it shares the box with the village.
 
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
