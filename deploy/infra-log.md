@@ -816,3 +816,14 @@ for, since it shares the box with the village.
 - **doco-cd v0.119.0 → v0.124.0** — the controller logged "new application
   version available" on 2026-10-08. Not read or rolled; a version bump is a
   controller change (§ 12–13 for how the last two went).
+
+## 2026-10-08 — doco-cd 0.119.0 → 0.124.0, controller self-managed from git (DONE)
+
+Hand-synced 0.124 at 12:33 UTC (`task doco:sync`, image pre-pulled). First poll: both stacks
+deployed because ProjectHash moved (0.120 artifact store); **only `caddy` recreated** (its
+`./Caddyfile` mount moved into `artifacts/<sha>/`) — api, pagi-site, pagi-demo, potok-api kept
+their ids. 0 warn/error. Then the `doco-cd` document in `.doco-cd.yml` (adc10ab): handover
+12:36:04 → `self-update finalised` 12:36:12, successor `doco-cd-doco-cd-2`, no other stack
+deployed. Observed, unexplained: `doco-cd-apprise-1` WAS recreated on the handover (seobro's
+was not) — stateless, no effect. From now on a pin bump in `deploy/controller/compose.yaml` on
+main is the upgrade; `task doco:sync` refuses while the git-managed daemon runs.
