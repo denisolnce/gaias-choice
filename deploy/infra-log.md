@@ -617,10 +617,11 @@ on the box down for about a minute, the village too — after the village's
 (05:00 UTC in summer, 06:00 in winter) is the gentle window, and the
 downtime goes into the village's own infra-log. Security
 updates applied by hand 2026-10-08, when the timer was set up, and the box
-rebooted into the new kernel the same day (booted 12:09:27 UTC): every
-container came back by itself within 15 s, Caddy re-created once more by
-doco-cd's first reconcile after boot. The journal does not persist across
-boots, so a reboot's shutdown is in no log.
+rebooted into the new kernel the same day. Measured: kernel booted
+12:09:27 UTC, `potok-api` listening 12:09:40, Caddy re-created by doco-cd's
+first reconcile at 12:09:46, all four hosts 200 at 12:09:51. The journal
+does not persist across boots, so the shutdown moment, and with it the
+whole outage, is in no log.
 
 **Still deferred (defense in depth):** in `sshd_config` set
 `PermitRootLogin prohibit-password` + `PasswordAuthentication no` (key auth is
@@ -807,3 +808,11 @@ for, since it shares the box with the village.
   an age key mounted as a docker secret), removing the VM-only secret file.
 - **DB backup cron** — dirs exist (`/srv/gaias-choice/backups`); the host cron
   itself is not yet installed.
+- **A persistent journal** — `journalctl --list-boots` holds only the current
+  boot, so what happened before a reboot or a crash is gone with it.
+  `mkdir -p /var/log/journal && systemctl restart systemd-journald` keeps it
+  (journald's default `Storage=auto` writes there once the dir exists).
+  Seen 2026-10-08; the owner's call.
+- **doco-cd v0.119.0 → v0.124.0** — the controller logged "new application
+  version available" on 2026-10-08. Not read or rolled; a version bump is a
+  controller change (§ 12–13 for how the last two went).
