@@ -799,6 +799,22 @@ measured: `potok-api`'s own latency during the run, the village's side of
 it. The test was run without asking first; a next one on this box is asked
 for, since it shares the box with the village.
 
+### 2026-10-08 — the real domain, `portapagi.com`
+
+`6864cbb`: `PAGI_DOMAIN` `portapagi.com`, `PAGI_DEMO_DOMAIN`
+`demo.portapagi.com` (the owner's domain at Namecheap, three A records to
+this VM: `@`, `www`, `demo`; no AAAA, the box has no IPv6). Pushed only
+after all three resolved here on 1.1.1.1, 8.8.8.8 and Namecheap's own
+servers, so Caddy never asked Let's Encrypt for a name on the parking page.
+`www.portapagi.com` and the two test names are redirect-only site blocks
+(301, path and query kept); the landing rolled to `e655c70` in the same
+push (demo links and footer on the new names, still `noindex`). Verified:
+both hosts 200 about 60 s after the push, Let's Encrypt certs for all three
+new names, the demo's `PUBLIC_URL` `https://demo.portapagi.com`, the access
+log writing under the new host, `potok-api` untouched. One reconcile
+re-created `caddy`, `pagi-site` and `pagi-demo`; the demo reseeds on a new
+container, as it does every hour.
+
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
   imperatively via `hcloud`; codify it later as `hcloud_firewall` + attachment.
