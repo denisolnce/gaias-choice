@@ -750,7 +750,10 @@ and `request>remote_port` are deleted, and `User-Agent` and `Referer` come
 back as top-level `ua` and `referer` by `log_append`. The demo's `/api/*`
 is skipped except `POST /api/demo/enter`: which rooms a visitor opens is
 not what the page says the log is for. The lines before this change keep
-the old shape until they age out; `task lens` reads both.
+the old shape until they age out; `task lens` reads both. Verified after the roll:
+the new line holds no header but `ua` and `referer`, a demo `/api/away`
+writes nothing, `potok-api` untouched. One more test request, User-Agent
+`lens-check-2`, at 10:58 UTC, counts as a direct visitor in the lens.
 
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
