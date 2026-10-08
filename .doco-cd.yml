@@ -27,7 +27,7 @@ environment:
   PAGI_DOMAIN: porta-pagi.gardenofatlantis.com
   PAGI_DEMO_DOMAIN: pp-demo.gardenofatlantis.com
   PAGI_SITE_TAG: sha-0794da35f4b9b39f9fa8cb968631530f46d2311c
-  PAGI_DEMO_TAG: sha-6f6dd7c61d0ab47fcdf0a7ea556d33ef8028c22e
+  PAGI_DEMO_TAG: sha-f4b564d9d0e59d7f6aa878cd1a5cc02dda2af520
   CORS_ORIGINS: https://denisolnce.github.io
   BE_TAG: sha-6de482c61328bfa0a8d80e8161518b853f0e103f
 # Runtime self-healing (doco-cd watches Docker events on this stack's containers):
