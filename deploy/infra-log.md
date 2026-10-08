@@ -616,7 +616,11 @@ on the box down for about a minute, the village too — after the village's
 03:00 UTC backup and before its quiet hours end at 07:00 Ljubljana time
 (05:00 UTC in summer, 06:00 in winter) is the gentle window, and the
 downtime goes into the village's own infra-log. Security
-updates applied by hand 2026-10-08, when the timer was set up.
+updates applied by hand 2026-10-08, when the timer was set up, and the box
+rebooted into the new kernel the same day (booted 12:09:27 UTC): every
+container came back by itself within 15 s, Caddy re-created once more by
+doco-cd's first reconcile after boot. The journal does not persist across
+boots, so a reboot's shutdown is in no log.
 
 **Still deferred (defense in depth):** in `sshd_config` set
 `PermitRootLogin prohibit-password` + `PasswordAuthentication no` (key auth is
