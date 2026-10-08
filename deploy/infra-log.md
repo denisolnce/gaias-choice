@@ -613,8 +613,9 @@ yes`, `reboot = never`, `emit_via = stdio`, so the journal is the only
 record and nothing pings). A kernel update waits for a reboot by hand:
 `dnf needs-restarting -r` says when one is due. A reboot takes every site
 on the box down for about a minute, the village too — after the village's
-03:00 UTC backup and before its quiet hours end at 05:00 UTC is the gentle
-window, and the downtime goes into the village's own infra-log. Security
+03:00 UTC backup and before its quiet hours end at 07:00 Ljubljana time
+(05:00 UTC in summer, 06:00 in winter) is the gentle window, and the
+downtime goes into the village's own infra-log. Security
 updates applied by hand 2026-10-08, when the timer was set up.
 
 **Still deferred (defense in depth):** in `sshd_config` set
