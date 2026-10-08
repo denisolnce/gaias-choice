@@ -38,6 +38,9 @@ The static site stays on GitHub Pages and never depends on this stack.
   `{$PAGI_DOMAIN}` → `pagi-site:8080` (the Porta Pagi landing page) and
   `{$PAGI_DEMO_DOMAIN}` → `pagi-demo:8788` (its demo village, the product's
   demo image on a tmpfs). See its comments, and `infra-log.md` for the wiring.
+  The two Porta Pagi sites alone keep an access log, address cut to /24 or
+  /48, in `/srv/gaias-choice/caddy-logs` on the VM; porta-pagi-cloud's
+  `task lens` reads it.
 - `.doco-cd.yml` (repo root) — `name`, `working_dir: deploy/app`, and the
   **non-secret** `environment:` (`API_DOMAIN`, `POTOK_DOMAIN`, `PAGI_DOMAIN`, `PAGI_DEMO_DOMAIN`, `PAGI_SITE_TAG`, `PAGI_DEMO_TAG`, `CORS_ORIGINS`,
   `BE_TAG`).

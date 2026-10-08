@@ -78,6 +78,9 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - /srv/gaias-choice/caddy:/data # cert storage survives redeploys
+      # The two Porta Pagi sites' access logs (Caddyfile), read by
+      # porta-pagi-cloud's `task lens`. Rolled by Caddy, 90 days at most.
+      - /srv/gaias-choice/caddy-logs:/var/log/caddy
     # Caddy sits on both networks: the stack's own (api, and potok-api, which
     # joins it from the village's stack) and the Porta Pagi one, so the demo
     # can reach nothing but Caddy — see `pagi` below.

@@ -93,6 +93,28 @@
 	handle @scanners {
 		abort
 	}
+	# Who finds the page, without a tracker: the access log is the analytics,
+	# read after the fact by porta-pagi-cloud's `task lens` (search and AI
+	# crawlers, assistants fetching for a user, where humans came from). The
+	# page says it keeps this log, so the address is cut to its network
+	# before it is written: a /24 or /48 names a street, not a house.
+	# Retention is Caddy's default roll_keep_for, 90 days, which the page
+	# also states. The two Porta Pagi sites only — the village and the api
+	# keep no access log.
+	log {
+		output file /var/log/caddy/pagi-site.log {
+			roll_size 10MiB
+			roll_keep 10
+		}
+		format filter {
+			request>remote_ip ip_mask 24 48
+			request>client_ip ip_mask 24 48
+			wrap json
+		}
+	}
+	# Assets, not pages: one line per visit is enough.
+	@assets path /fonts/* /img/* /style.css /icon.svg
+	log_skip @assets
 	reverse_proxy pagi-site:8080
 }
 
@@ -112,5 +134,22 @@
 	handle @scanners {
 		abort
 	}
+	# Same log as the landing above, same masking: the demo is where a
+	# visitor from the page walks in (POST /api/demo/enter), and its /api
+	# GETs say which rooms they opened. Cookies are redacted by Caddy itself;
+	# nothing the demo holds is real. Static files and pictures skipped.
+	log {
+		output file /var/log/caddy/pagi-demo.log {
+			roll_size 10MiB
+			roll_keep 10
+		}
+		format filter {
+			request>remote_ip ip_mask 24 48
+			request>client_ip ip_mask 24 48
+			wrap json
+		}
+	}
+	@assets path /assets/* /fonts/* *.png *.jpg *.svg /sw.js /manifest.webmanifest /changelog.json /api/healthz /api/photos/* /api/map/* /api/tools/*/photo
+	log_skip @assets
 	reverse_proxy pagi-demo:8788
 }
