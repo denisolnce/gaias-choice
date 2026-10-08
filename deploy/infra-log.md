@@ -724,6 +724,22 @@ cap on that service (10 MB × 3): the log holds reply addresses until email
 is wired. The demo build refuses a switch flip server-side, so no visitor
 takes a room from the others for the hour.
 
+### 2026-10-08 — an access log for the landing and the demo
+
+`396965d`: Caddy writes an access log for `{$PAGI_DOMAIN}` and
+`{$PAGI_DEMO_DOMAIN}` only, to `/srv/gaias-choice/caddy-logs`
+(`pagi-site.log`, `pagi-demo.log`; bind-mounted as `/var/log/caddy`,
+created by docker on the first `up`, nothing by hand). The address is cut
+to /24 or /48 before it is written, cookies are redacted by Caddy itself,
+assets are `log_skip`ped; 10 MiB × 10 rolled, 90 days at most. The village
+and the api keep no access log. Read by porta-pagi-cloud's `task lens`. The
+landing, rolled to `814883a` in the same push, says in its promises that it
+keeps this log. Verified on the box: `caddy` and `pagi-site` recreated,
+`potok-api` and `pagi-demo` untouched, both files written as root 0600 with
+the address masked. The first lines are the verification's own: one
+request with a `chatgpt.com` referrer at 10:49 UTC is the test, not a
+visitor.
+
 ## Deferred (not done yet, by design)
 - **Terraform the edge firewall** — `gaias-choice-edge` is live but was created
   imperatively via `hcloud`; codify it later as `hcloud_firewall` + attachment.
