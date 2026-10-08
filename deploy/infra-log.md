@@ -813,9 +813,6 @@ for, since it shares the box with the village.
   `mkdir -p /var/log/journal && systemctl restart systemd-journald` keeps it
   (journald's default `Storage=auto` writes there once the dir exists).
   Seen 2026-10-08; the owner's call.
-- **doco-cd v0.119.0 → v0.124.0** — the controller logged "new application
-  version available" on 2026-10-08. Not read or rolled; a version bump is a
-  controller change (§ 12–13 for how the last two went).
 
 ## 2026-10-08 — doco-cd 0.119.0 → 0.124.0, controller self-managed from git (DONE)
 
