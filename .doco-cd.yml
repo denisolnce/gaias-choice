@@ -29,7 +29,7 @@ environment:
   PAGI_DOMAIN: portapagi.com
   PAGI_DEMO_DOMAIN: demo.portapagi.com
   PAGI_SITE_TAG: sha-ad33866aefb2814e4707a1d054c67540309d6911
-  PAGI_DEMO_TAG: sha-f4b564d9d0e59d7f6aa878cd1a5cc02dda2af520
+  PAGI_DEMO_TAG: sha-53ad7da4d80d1735484730a51d2bf64f9d01331b
   CORS_ORIGINS: https://denisolnce.github.io
   BE_TAG: sha-6de482c61328bfa0a8d80e8161518b853f0e103f
 # Runtime self-healing (doco-cd watches Docker events on this stack's containers):
